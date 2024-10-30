@@ -1,0 +1,19 @@
+.fi-section-header-heading {
+    color: #039ED7 !important;
+    font-size: 20px !important;
+    font-weight: bold !important;
+    text-decoration-line: underline;
+    text-decoration-style: double;
+}
+.fi-logo, .fi-sidebar-item-icon, .fi-breadcrumbs li a{
+    color: #039ED7 !important;
+}
+.fi-sidebar-group-label, .fi-sidebar-item-label{
+    font-weight: 700 !important;
+}
+.fi-sidebar-group-label{
+    font-size: 18px !important;
+}
+.fi-sidebar-group-items  .fi-sidebar-item-label{
+    font-weight: 600 !important;
+}
