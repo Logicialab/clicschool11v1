@@ -1,4 +1,4 @@
-@section('title', 'Home student')
+@section('title', 'الوحدات الدراسية')
 
 @extends('layouts.student')
 
@@ -12,9 +12,15 @@
     <!-- Card header -->
     <div class="card-header d-flex">
         <div class="col-md-10">
-            <h3 class="mb-0"> المواد الدراسية - {{$unitCourse->classe->title}}</h3>
+            @if ($unitCourse && $unitCourse->classe)
+            <h3 class="mb-0"> الوحدة الدراسية: {{$unitCourse->title}}</h3>
             <span>{{$unitCourse->classe->description}}</span><br>
+            <span>{{$unitCourse->classe->title}}</span><br>
             <span>العام الدراسي : {{$unitCourse->classe->annee_scolaire}}</span>
+            @else
+            <h3 class="mb-0"> </h3>
+            @endif
+           
         </div>
     </div>
     <!-- Card body -->
@@ -38,17 +44,29 @@
     </div>
 </div>
     <!-- Table -->
+
     <div class="tab-content" bis_skin_checked="1">
         <!-- Tab pane -->
+
+        @if ($courses)
+            
+       
         <div class="tab-pane fade pb-4 active show" id="tabPaneGrid" role="tabpanel" aria-labelledby="tabPaneGrid"
             bis_skin_checked="1">
             <div class="row" bis_skin_checked="1">
-                @foreach($unitCourse->courses as $course)
+                @foreach($courses as $course)
                 <div class="col-lg-4 col-md-6 col-12" bis_skin_checked="1">
                     <!-- Card -->
                     <div class="card mb-4 card-hover" bis_skin_checked="1">
-                        <a href="{{ route('student.course.show_show', $course->slug) }}"><img src="/storage/{{$course->image}}" alt="course"
-                                class="card-img-top"></a>
+                        <a href="{{ route('student.course.show_show', $course->slug) }}">
+                            @if (file_exists( $course->image))
+                            <img src="/storage/{{$course->image}}" alt="course"
+                                class="card-img-top">
+                             
+                            @else
+                                <img src="/assets/images/course/online_course.jpg">
+                            @endif
+                            </a>
                         <!-- Card body -->
                         <div class="card-body" bis_skin_checked="1">
                             <h4 class="mb-2 text-truncate-line-2"><a href="{{ route('student.course.show_show', $course->slug) }}" class="text-inherit">{{$course->title}}</a></h4>
@@ -62,25 +80,16 @@
                             </ul>
                         </div>
                         <!-- Card footer -->
-                        <div class="card-footer" bis_skin_checked="1">
-                            <!-- Row -->
-                            <div class="row align-items-center g-0" bis_skin_checked="1">
-                                
-                                <div class="col ms-2" bis_skin_checked="1">
-                                <span>عدد الدروس </span><span>({{$unitCourse->classe->unitCourses->count()}})</span>
-                                </div>
-                                <div class="col-auto" bis_skin_checked="1">
-                                    <a href="#" class="text-reset bookmark">
-                                        <i class="fe fe-bookmark fs-4"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
                 @endforeach
             </div>
         </div>
+
+        @else
+            
+        @endif
         <!-- Tab pane -->
         <div class="tab-pane fade pb-4" id="tabPaneList" role="tabpanel" aria-labelledby="tabPaneList"
             bis_skin_checked="1">

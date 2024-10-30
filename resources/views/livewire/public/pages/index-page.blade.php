@@ -1,7 +1,7 @@
 <div>
     
 <livewire:public.section.slider-section />
-
+-----
 
 <livewire:public.section.stastique-section />
 <!--trusted-->

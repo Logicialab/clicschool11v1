@@ -13,7 +13,10 @@ Route::prefix('/dashboard/student/')->middleware('auth')->group(function () {
     // Route::get('/subjects', StudentIndexSubject::class)->name('student.subjects');
     Route::get('/subjects/{slug}', [DashboardStudentController::class,'subjects_show'])->name('student.subjects.show');
 
-    Route::get('/unitcourse/{slug}', [DashboardStudentController::class,'course_show'])->name('student.course.show');
+    Route::get('/unitcourse/{slug}', [DashboardStudentController::class,'unitcourse'])->name('student.unitcourse.show');
+
+    Route::get('show/course/{slug}', [DashboardStudentController::class,'course_show'])->name('student.course.show');
+
     Route::get('/course/{slug}', [DashboardStudentController::class,'course_show_show'])->name('student.course.show_show');
 
     Route::get('/quiz/{slug}', [DashboardStudentController::class,'quiz_show'])->name('student.quiz.show');

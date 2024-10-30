@@ -29,7 +29,10 @@
                 {{$course->description}}
             </p>
             <div class="d-flex align-items-center mb-5 lh-1 flex-grow-1">
+              @if ($course->teacher)
+                
               <span class="badge bg-success me-2">{{$course->teacher->name}}</span>
+              @endif
               <!-- <div>
                 <span class="text-inherit fw-semibold">4.9</span>
                 <span class="ms-1">
@@ -44,7 +47,11 @@
                 </svg>
               </div>
               <div>
-                <span class="text-inherit fw-semibold me-1"></span>{{$course->unitCourse->title}}
+                @if ($course->unitCourse)
+                  
+                          <span class="text-inherit fw-semibold me-1"></span>{{$course->unitCourse->title}}
+                @endif
+         
               </div>
             </div>
             <a href="/course/{{ $course->slug }}" class="mt-auto">اشترك اليوم <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" class="mx-1" style="margin-top:1.5px" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">

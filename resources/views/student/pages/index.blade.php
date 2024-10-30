@@ -1,4 +1,4 @@
-@section('title', 'Home tetcher')
+@section('title', 'لوحة التحكم خاصتي')
 
 @extends('layouts.student')
 
@@ -12,7 +12,7 @@
             <div class="p-4">
                 <span class="fs-6 text-uppercase fw-semibold">الرصيد</span>
                 @if($user->wallets && $user->wallets->isNotEmpty())
-                <h2 class="mt-4 fw-bold mb-1 d-flex align-items-center h1 lh-1">${{ $user->wallets[0]->balance }}</h2>
+                <h2 class="mt-4 fw-bold mb-1 d-flex align-items-center h1 lh-1">${{ $balances }}</h2>
                 @else
                 <h2 class="mt-4 fw-bold mb-1 d-flex align-items-center h1 lh-1">$0</h2>
                 @endif
@@ -29,7 +29,13 @@
         <div class="card mb-4">
             <div class="p-4">
                 <span class="fs-6 text-uppercase fw-semibold">الدورات المشارك فيها</span>
-                <h2 class="mt-4 fw-bold mb-1 d-flex align-items-center h1 lh-1">12</h2>
+
+                @if($formations_participant )
+                <h2 class="mt-4 fw-bold mb-1 d-flex align-items-center h1 lh-1">{{ $formations_participant }}</h2>
+                @else
+                <h2 class="mt-4 fw-bold mb-1 d-flex align-items-center h1 lh-1">0</h2>
+                @endif
+              
                 <span class="d-flex justify-content-between align-items-center">
                     <!-- <span>جديد هذا الشهر</span>
                     <span class="badge bg-info ms-2">120+</span> -->
@@ -42,7 +48,14 @@
         <div class="card mb-4">
             <div class="p-4">
                 <span class="fs-6 text-uppercase fw-semibold">البث المباشر المشارك فيه</span>
-                <h2 class="mt-4 fw-bold mb-1 d-flex align-items-center h1 lh-1">4</h2>
+
+                @if($formations_participant )
+                <h2 class="mt-4 fw-bold mb-1 d-flex align-items-center h1 lh-1">{{ $live_participant }}</h2>
+                @else
+                <h2 class="mt-4 fw-bold mb-1 d-flex align-items-center h1 lh-1">0</h2>
+                @endif
+
+             
                 <span class="d-flex justify-content-between align-items-center">
                     <!-- <span>التقييم هذا الشهر</span>
                     <span class="badge bg-warning ms-2">10+</span> -->

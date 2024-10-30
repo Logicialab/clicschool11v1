@@ -1,4 +1,4 @@
-@section('title', 'Home tetcher')
+@section('title', 'الدروس')
 
 @extends('layouts.student')
 
@@ -8,8 +8,10 @@
 <!-- Card -->
 <div class="card mb-4">
     <!-- Card header -->
+    @if($subject)
     <div class="card-header">
-        <h3 class="mb-0">الدروس للمادة {{$subject->title}}</h3>
+       
+        <h3 class="mb-0">الدروس لمادة {{$subject->title}}</h3>
         <span>{{$subject->discription}}</span>
     </div>
     <!-- Card body -->
@@ -31,59 +33,52 @@
         </form>
     </div>
     <!-- Table -->
-    <div class="table-responsive overflow-y-hidden">
-        <table class="table mb-0 text-nowrap table-hover table-centered text-nowrap">
-            <thead class="table-light">
-                <tr>
-                    <th>الدروس</th>
-                    <th>المدرس</th>
-                    <th>التقييمات</th>
-                    <th>الحالة</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($subject->unitCourses as $unitCourse)
-                <tr>
-                    <td>
-                        <a href="{{ route('student.course.show', $unitCourse->slug) }}">
-                            <div class="d-flex align-items-center">
-                                <div>
-                                    
-                                        <img src="/storage/{{$unitCourse->image}}" alt="course"
-                                            class="rounded img-4by3-lg">
-                                    
-                                </div>
-                                <div class="ms-3">
-                                    <h4 class="mb-1 h5">
-                                        <a href="{{ route('student.course.show', $unitCourse->slug) }}" class="text-inherit">{{$unitCourse->title}}</a>
-                                    </h4>
-                                </div>
-                            </div>
-                        </a>
-                    </td>
-                    <td></td>
-                    <td>
-                        <span class="lh-1">
-                            <span class="text-warning">4.5</span>
-                            <span class="mx-1 align-text-top">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" fill="currentColor"
-                                    class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
-                                    <path
-                                        d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z">
-                                </svg>
-                            </span>
-                            (3,250)
-                        </span>
-                    </td>
-                    <td>
-                        <span class="badge bg-success"> {{$unitCourse->status}} </span>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
+     
 
-</div>
-@endsection
+
+  <!-- Table -->
+  <div class="tab-content" bis_skin_checked="1">
+    <!-- Tab pane -->
+    <div class="tab-pane fade pb-4 active show" id="tabPaneGrid" role="tabpanel" aria-labelledby="tabPaneGrid"
+        bis_skin_checked="1">
+        <div class="row" bis_skin_checked="1">
+            @foreach($subject->unitCourses as $unitCourse)
+                <div class="col-lg-4 col-md-6 col-12" bis_skin_checked="1">
+                    <!-- Card -->
+                    <div class="card mb-4 card-hover" bis_skin_checked="1">
+                       
+                        <a href="{{ route('student.unitcourse.show', $unitCourse->slug) }}">
+                    
+                        @if (file_exists( $unitCourse->image))
+                            <img src="/storage/{{$unitCourse->image}}" style="min-width: 100px">
+                        @else
+                            <img src="/assets/images/course/online_course.jpg">
+                        @endif
+
+                    </a>
+                        <!-- Card body -->
+                         <div class="card-body" bis_skin_checked="1">
+                            <h4 class="mb-2 text-truncate-line-2"><a
+                                    href="{{ route('student.unitcourse.show', $unitCourse->slug) }}"
+                                    class="text-inherit">{{ $unitCourse->title }}</a></h4>
+                            <!-- List inline -->
+                            <ul class="mb-3 list-inline">
+                                <li class="list-inline-item">
+
+                                    <span>{{ $unitCourse->description }}</span>
+                                </li>
+
+                            </ul>
+                        </div>
+                       
+                      
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
+    @else
+                           
+    <h3 class="mb-0">لا يوجد دروس  في هذه المادة</h3> 
+                        @endif
+    @endsection

@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Competition;
 use App\Models\Formation;
+use App\Models\FormationParticipant;
+use App\Models\LiveParticipant;
 use App\Models\Student;
 use App\Models\UnitCourse;
 use Illuminate\Support\Facades\Auth;
@@ -21,7 +23,11 @@ class DashboardStudentController extends Controller
         $user = Auth::user();
         // dd($user->wallets[0]->balance);
         $formations = Formation::take(5)->get();
-        return view('student.pages.index',compact('user',"formations"));
+        $formations_participant = FormationParticipant::where('student_id',$user->id)->count();
+        $live_participant = LiveParticipant::where('student_id',$user->id)->count();
+        $balances=$user->wallets->sum("balance");
+        // dd();
+        return view('student.pages.index',compact('user',"formations","formations_participant","live_participant","balances"));
     } 
  
     
@@ -38,24 +44,18 @@ class DashboardStudentController extends Controller
     public function getUniqueSubjects()
     {
         // Get the authenticated student's ID
-        
-        // $studentId = Student::where('user_id',Auth::id())->find();
+         
         $student =Auth::user()->students[0];
-        // Fetch the student and the associated class
-        $student = Student::with('classe.unitCourses.subject')->find($student->id);
-        // dd( Student::with('classe.unitCourses.subject')->find($studentId));
-        // if (!$student || !$student->classe) {
-        //     return response()->json(['message' => 'Student or class not found'], 404);
-        // }
-
-        $classe = Classe::find($student->classe_id);
-
-        // dd($student->classe->unitCourses->pluck('subject')->unique('id'));
-        // Retrieve the subjects from the student's class and make sure they are unique
+         
+        $student_class = Student::with('classe.unitCourses.subject')->find($student->id);
+       
+      
+        $classes=$student->classe;
+        $unitCourse= $classes->unitCourses;
+ 
+        $classe = Classe::find($student->classe_id); 
         $subjects = $student->classe->unitCourses->pluck('subject')->unique('id');
-
-        // dd($subjects);
-        // return response()->json($subjects);
+ 
         return view('student.subjects.index',compact('subjects',"classe"));
     }
 
@@ -75,11 +75,24 @@ class DashboardStudentController extends Controller
         return view('student.pages.courses',compact('subject'));
     }
 
-    public function course_show($slug) {
+    public function unitcourse($slug) {
         $unitCourse = UnitCourse::where('slug',$slug)->first();
         // $course = Course::where('slug',$slug)->first();
+        $courses=Course::where('unitCourse_id', $unitCourse->id)->where('active',1)->orderBy('order', 'desc')->get();
         // dd($unitCourse->courses);
-        return view('student.unitcourses.index',compact('unitCourse'));
+        return view('student.unitcourses.index',compact('unitCourse','courses'));
+    }
+    
+    
+    //show course
+    public function course_show($slug) {
+
+        $course = Course::where('slug',$slug)->first();
+       
+
+        return view('student.courses.show',compact('course'));
+
+
     }
 
     public function course_show_show($slug) {
@@ -104,16 +117,21 @@ class DashboardStudentController extends Controller
 
     public function profiledit() {
         $user = Auth::user();
-        $student = Student::find($user->students[0]);
+        $student = Student::find($user->students[0])->first();
+        $classes = Classe::pluck('title', 'id');
         // dd($student);
-        return view('student.pages.profiledit',compact('user','student'));
+        return view('student.pages.profiledit',compact('user','student','classes'));
     }    
 
     
 
     public function formations() {
-        $formations = Formation::all();
-        return view('student.formations.index',compact('formations'));
+        $user = Auth::user();
+        $student = Student::where('user_id', $user->id)->first();
+        $formations_participant = FormationParticipant::where('student_id',$student->id)->get();
+         
+        // dd( $formations_participant);
+        return view('student.formations.index',compact('formations_participant'));
     }
 
     public function courses() {

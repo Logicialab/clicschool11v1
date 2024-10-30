@@ -1,6 +1,17 @@
 <nav dir="rtl" class="navbar navbar-expand-lg shadow-none">
     <div class="container px-0" bis_skin_checked="1">
         <a class="navbar-brand" href="/"><img src="/assets/images/lg.png" loading="lazy" width="55" height="55" alt=""></a>
+        @if (auth()->check())
+        <div class="d-flex align-items-center order-lg-3" bis_skin_checked="1">
+            <div class="d-flex align-items-center" bis_skin_checked="1">
+                <div class="d-none d-md-block me-2" bis_skin_checked="1">
+                    <a href="#" class="btn btn-transparent border-black text-black">تسجيل الخروج</a>
+                </div>
+                
+            </div>
+            
+        </div>
+         @else
         <div class="d-flex align-items-center order-lg-3" bis_skin_checked="1">
             <div class="d-flex align-items-center" bis_skin_checked="1">
                 <div class="d-none d-md-block me-2" bis_skin_checked="1">
@@ -18,6 +29,8 @@
                 </button>
             </div>
         </div>
+        @endif
+      
         <!-- Button -->
 
         <!-- Collapse -->

@@ -9,8 +9,8 @@
 <div class="card" bis_skin_checked="1">
     <!-- Card header -->
     <div class="card-header" bis_skin_checked="1">
-        <h3 class="mb-0">{{ $course->title }}</h3>
-        <p class="mb-0">{{ $course->teacher->name." ".$course->teacher->name }}</p>
+        <h3 class="mb-0">{{ $course->title ?? '' }}</h3>
+        <p class="mb-0">{{ $course->teacher ? $course->teacher->name." ".$course->teacher->name :''}}</p>
         <p class="mb-0">{{ $course->description }}</p>
     </div>
     <!-- Card body -->
@@ -25,9 +25,9 @@
                 <small>{!! $course->body !!}</small>
             </div>
         </div>
-        <div bis_skin_checked="1">
+        {{-- <div bis_skin_checked="1">
                     <a href="{{ route('student.course.show', $course->slug) }}" class="btn btn-primary d-none w-20 d-md-block">العودة</a>
-                </div>
+                </div> --}}
         
     </div>
 </div>
